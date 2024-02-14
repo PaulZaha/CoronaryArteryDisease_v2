@@ -18,6 +18,7 @@ def img_to_array(imgormask,name,size):
     return binary_array
 
 
+
 def load_images(imgormask,dir,size):
     images = []
     for filename in os.listdir(dir):

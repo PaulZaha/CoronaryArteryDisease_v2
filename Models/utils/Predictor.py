@@ -10,13 +10,14 @@ from utils.Pipeline import *
 def predictor(name,model,imgormask,size):
     predict_array = img_to_array(imgormask,name,size)
     predict_array = np.expand_dims(predict_array,axis=0)
+    #print(prediction.shape)
     prediction = model.predict(predict_array)
-    print(prediction)
-
-    prediction = np.squeeze(prediction, axis=0) 
-    prediction = np.argmax(prediction, axis=-1) 
+    
+    prediction = np.squeeze(prediction, axis=0)
+    prediction = np.nanargmax(prediction, axis=-1) 
     prediction = Image.fromarray(np.uint8(prediction*255)) 
-    prediction = prediction.resize(size)
+    
+    #prediction = prediction.resize(size)
     prediction.save(name[:-4] + "_pred.jpg")
 
 

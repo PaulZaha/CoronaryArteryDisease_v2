@@ -57,7 +57,7 @@ def build_model(size):
 
    
 def main():
-    size =(512,512)
+    size =(256,256)
 
 
     unet = build_model(size)
@@ -72,15 +72,15 @@ def main():
     test_img = np.expand_dims(test_img,axis=0)
 
     x_train = load_images('images',train_image_dir,size)
-    print(x_train.shape)
+    #print(x_train.shape)
     y_train = load_images('masks',train_mask_dir,size)
-    print(y_train.shape)
+    #print(y_train.shape)
 
-    unet.fit(x_train,y_train,epochs=3,batch_size=32,verbose=1)
-    #hist = model_fitter(unet,3,32,x_train,y_train)
+    #unet.fit(x_train,y_train,epochs=5,batch_size=4,verbose=1)
+    hist = model_fitter(unet,1,4,x_train,y_train)
 
     #tf.keras.saving.save_model(unet,os.getcwd())
-    predictor('1.png',unet,'images',size)
+    predictor('7.png',unet,'images',size)
     #pred = unet.predict(test_img)
 if __name__ == "__main__":
     main()

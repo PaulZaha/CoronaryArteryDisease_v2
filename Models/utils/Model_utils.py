@@ -6,8 +6,8 @@ import cv2
 
 
 def model_compiler(model):
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
-                  loss='categorical_crossentropy',
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+                  loss='binary_crossentropy',
                   #"sparse_categorical_crossentropy",
                   metrics="accuracy")
 
