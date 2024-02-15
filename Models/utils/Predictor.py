@@ -14,7 +14,7 @@ def predictor(name,model,imgormask,size):
     prediction = model.predict(predict_array)
     
     prediction = np.squeeze(prediction, axis=0)
-    prediction = np.nanargmax(prediction, axis=-1) 
+    prediction = np.nanargmax(prediction, axis=-1)
     prediction = Image.fromarray(np.uint8(prediction*255)) 
     
     #prediction = prediction.resize(size)

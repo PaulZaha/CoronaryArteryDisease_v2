@@ -32,7 +32,9 @@ def upsample_block(x, conv_features, n_filters):
 def build_model(size):
     shape = size + (3,)
     inputs = tf.keras.layers.Input(shape=shape)
-    
+
+
+
     #Encoder Structure
     f1, p1 = downsample_block(inputs, 64)
     f2, p2 = downsample_block(p1, 128)
@@ -51,10 +53,23 @@ def build_model(size):
     # outputs
     outputs = tf.keras.layers.Conv2D(3, 1, padding="same", activation = "softmax")(u9)
     # unet model with Keras Functional API
-    unet_model = tf.keras.Model(inputs, outputs, name="U-Net")
+    unet_model = tf.keras.Model(inputs=inputs, outputs=outputs, name="U-Net")
+    unet_model.trainable = True
     return unet_model
 
 
+
+
+def load_image(image_path, mask_path):
+    image = tf.io.read_file(image_path)
+    image = tf.image.decode_image(image, channels=3)  # Lade das Bild mit 3 Farbkanälen (RGB)
+    image = tf.cast(image, tf.float32) / 255.0  # Normalisieren der Pixelwerte auf den Bereich [0, 1]
+
+    mask = tf.io.read_file(mask_path)
+    mask = tf.image.decode_image(mask, channels=1)  # Lade die Maske mit einem Farbkanal (Graustufen)
+    mask = tf.cast(mask, tf.float32) / 255.0  # Normalisieren der Pixelwerte auf den Bereich [0, 1]
+    
+    return image, mask
    
 def main():
     #Todos:
@@ -63,9 +78,10 @@ def main():
 
     size =(256,256)
     epochs = 5
-    batch_size = 8
+    batch_size = 16
 
     unet = build_model(size)
+    
     
     model_compiler(unet)
     os.chdir(os.path.join(os.getcwd(),'..'))
@@ -74,20 +90,41 @@ def main():
     val_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','images')
     val_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','masks')
 
-    test_img = img_to_array('images','21.png',size)
-    test_img = np.expand_dims(test_img,axis=0)
 
-    x_train = load_images('images',train_image_dir,size)
-    #print(x_train.shape)
-    y_train = load_images('masks',train_mask_dir,size)
-    #print(y_train.shape)
-    x_val = load_images('images',val_image_dir,size)
-    y_val = load_images('masks',val_mask_dir,size)
+    image_paths = [train_image_dir for img in os.listdir(train_image_dir)]
+    mask_paths = [train_mask_dir for mask in os.listdir(train_mask_dir)]
+
+    dataset = tf.data.Dataset.from_tensor_slices((image_paths, mask_paths))
+
+    dataset = dataset.map(load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    print(dataset.element_spec)
+
+    dataset = dataset.shuffle(buffer_size=1000).batch(batch_size)
 
 
 
-    #unet.fit(x_train,y_train,epochs=5,batch_size=4,verbose=1)
-    hist = model_fitter(model=unet,epochs=epochs,batchsize=batch_size,xdata=x_train,ydata=y_train,valdata=(x_val,y_val))
+
+
+
+
+
+
+
+
+    # test_img = img_to_array('images','21.png',size)
+    # test_img = np.expand_dims(test_img,axis=0)
+
+    # x_train = load_images('images',train_image_dir,size)
+    # #print(x_train.shape)
+    # y_train = load_images('masks',train_mask_dir,size)
+    # #print(y_train.shape)
+    # x_val = load_images('images',val_image_dir,size)
+    # y_val = load_images('masks',val_mask_dir,size)
+
+
+
+    unet.fit(dataset,epochs=5,batch_size=4,verbose=1)
+    #hist = model_fitter(model=unet,epochs=epochs,batchsize=batch_size,xdata=x_train,ydata=y_train,valdata=(x_val,y_val))
 
     #tf.keras.saving.save_model(unet,os.getcwd())
     predictor('7.png',unet,'images',size)

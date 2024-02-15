@@ -4,9 +4,16 @@ import numpy as np
 from PIL import Image
 import cv2
 
+def dice_loss(y_true, y_pred):
+    smooth = 1e-5
+    intersection = tf.reduce_sum(y_true * y_pred)
+    union = tf.reduce_sum(y_true) + tf.reduce_sum(y_pred)
+    dice = (2. * intersection + smooth) / (union + smooth)
+    return 1. - dice
+
 
 def model_compiler(model):
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    model.compile(optimizer=tf.keras.optimizers.Adam(),
                   loss='binary_crossentropy',
                   #"sparse_categorical_crossentropy",
                   metrics="accuracy")
