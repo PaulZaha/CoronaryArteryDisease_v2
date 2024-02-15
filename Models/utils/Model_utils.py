@@ -12,11 +12,12 @@ def model_compiler(model):
                   metrics="accuracy")
 
 
-def model_fitter(model,epochs,batchsize,xdata,ydata):
+def model_fitter(model,epochs,batchsize,xdata,ydata,valdata):
     hist = model.fit(xdata,ydata
               ,epochs=epochs
-              ,batch_size=batchsize,
-              verbose=1
+              ,batch_size=batchsize
+              ,verbose=1
+              ,validation_data = valdata
               )
     return hist
 

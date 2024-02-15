@@ -57,8 +57,13 @@ def build_model(size):
 
    
 def main():
-    size =(256,256)
+    #Todos:
+    #Bilder verbrauchen aktuell zu viel RAM
+    #Dice loss implementieren
 
+    size =(256,256)
+    epochs = 5
+    batch_size = 8
 
     unet = build_model(size)
     
@@ -66,7 +71,8 @@ def main():
     os.chdir(os.path.join(os.getcwd(),'..'))
     train_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','images')
     train_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','masks')
-    
+    val_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','images')
+    val_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','masks')
 
     test_img = img_to_array('images','21.png',size)
     test_img = np.expand_dims(test_img,axis=0)
@@ -75,9 +81,13 @@ def main():
     #print(x_train.shape)
     y_train = load_images('masks',train_mask_dir,size)
     #print(y_train.shape)
+    x_val = load_images('images',val_image_dir,size)
+    y_val = load_images('masks',val_mask_dir,size)
+
+
 
     #unet.fit(x_train,y_train,epochs=5,batch_size=4,verbose=1)
-    hist = model_fitter(unet,1,4,x_train,y_train)
+    hist = model_fitter(model=unet,epochs=epochs,batchsize=batch_size,xdata=x_train,ydata=y_train,valdata=(x_val,y_val))
 
     #tf.keras.saving.save_model(unet,os.getcwd())
     predictor('7.png',unet,'images',size)
