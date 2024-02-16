@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import cv2
 
-from utils.Pipeline import *
+from Pipeline import *
 
 
 def predictor(name,model,imgormask,size):
@@ -26,8 +26,9 @@ def predictor(name,model,imgormask,size):
 
 
 def main():
-    pass
-
+    size =(512,512)
+    model = tf.keras.saving.load_model(os.path.join(os.getcwd(),'model.h5'))
+    predictor('7.png',model,'images',size)
 
 if __name__ == "__main__":
     main()

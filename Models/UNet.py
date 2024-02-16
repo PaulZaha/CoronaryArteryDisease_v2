@@ -6,7 +6,7 @@ import cv2
 
 from utils.Model_utils import *
 from utils.Pipeline import *
-from utils.Predictor import *
+
 
 def double_conv_block(x,n_filters):
     x = tf.keras.layers.Conv2D(n_filters, 3, padding = "same", activation = "relu", kernel_initializer = "he_normal")(x)
@@ -58,8 +58,6 @@ def build_model(size):
     return unet_model
 
 
-
-
 def load_image(image_path, mask_path):
     image = tf.io.read_file(image_path)
     image = tf.image.decode_image(image, channels=3)  # Lade das Bild mit 3 Farbkanälen (RGB)
@@ -70,64 +68,54 @@ def load_image(image_path, mask_path):
     mask = tf.cast(mask, tf.float32) / 255.0  # Normalisieren der Pixelwerte auf den Bereich [0, 1]
     
     return image, mask
-   
+
+
+
+
+
+
 def main():
     #Todos:
     #Bilder verbrauchen aktuell zu viel RAM
     #Dice loss implementieren
 
-    size =(256,256)
-    epochs = 5
-    batch_size = 16
+    size =(512,512)
+    epochs = 20
+    batch_size = 4
+    steps_per_epoch = 250
 
     unet = build_model(size)
-    
-    
     model_compiler(unet)
+
+
     os.chdir(os.path.join(os.getcwd(),'..'))
     train_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','images')
     train_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','masks')
     val_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','images')
     val_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','masks')
+    test_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images')
+    test_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','masks')
 
 
-    image_paths = [train_image_dir for img in os.listdir(train_image_dir)]
-    mask_paths = [train_mask_dir for mask in os.listdir(train_mask_dir)]
+    train_generator,validation_generator,test_generator = generators(targetsize=size,batchsize=batch_size,
+                                                                     train_image_dir=train_image_dir,train_mask_dir=train_mask_dir,
+                                                                     val_image_dir=val_image_dir,val_mask_dir=val_mask_dir,
+                                                                     test_image_dir=test_image_dir,test_mask_dir=test_mask_dir
+                                                                     )
 
-    dataset = tf.data.Dataset.from_tensor_slices((image_paths, mask_paths))
-
-    dataset = dataset.map(load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    print(dataset.element_spec)
-
-    dataset = dataset.shuffle(buffer_size=1000).batch(batch_size)
-
-
-
+    
 
 
 
+    
+    model_fitter(train_generator=train_generator,model=unet,
+                        epochs=epochs,
+                        #validation_generator=validation_generator
+                        )
 
-
-
-
-
-    # test_img = img_to_array('images','21.png',size)
-    # test_img = np.expand_dims(test_img,axis=0)
-
-    # x_train = load_images('images',train_image_dir,size)
-    # #print(x_train.shape)
-    # y_train = load_images('masks',train_mask_dir,size)
-    # #print(y_train.shape)
-    # x_val = load_images('images',val_image_dir,size)
-    # y_val = load_images('masks',val_mask_dir,size)
-
-
-
-    unet.fit(dataset,epochs=5,batch_size=4,verbose=1)
-    #hist = model_fitter(model=unet,epochs=epochs,batchsize=batch_size,xdata=x_train,ydata=y_train,valdata=(x_val,y_val))
-
-    #tf.keras.saving.save_model(unet,os.getcwd())
-    predictor('7.png',unet,'images',size)
+    #model_evaluater(test_generator=test_generator,model=unet)
+    tf.keras.saving.save_model(unet,os.path.join(os.getcwd(),'model.h5'),save_format='h5')
+    #predictor('1.png',unet,'images',size)
     #pred = unet.predict(test_img)
 if __name__ == "__main__":
     main()

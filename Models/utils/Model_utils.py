@@ -4,6 +4,9 @@ import numpy as np
 from PIL import Image
 import cv2
 
+from utils.Pipeline import *
+
+
 def dice_loss(y_true, y_pred):
     smooth = 1e-5
     intersection = tf.reduce_sum(y_true * y_pred)
@@ -14,19 +17,30 @@ def dice_loss(y_true, y_pred):
 
 def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.Adam(),
-                  loss='binary_crossentropy',
+                  loss=tf.keras.losses.BinaryCrossentropy(),
                   #"sparse_categorical_crossentropy",
-                  metrics="accuracy")
+                  metrics=[tf.keras.metrics.BinaryIoU()])
 
 
-def model_fitter(model,epochs,batchsize,xdata,ydata,valdata):
-    hist = model.fit(xdata,ydata
+def model_fitter(train_generator,model,epochs
+                 #,validation_generator
+                 ):
+    hist = model.fit(train_generator
               ,epochs=epochs
-              ,batch_size=batchsize
+              ,steps_per_epoch=125
+              #,batch_size=batchsize
               ,verbose=1
-              ,validation_data = valdata
+              #,validation_data = validation_generator
               )
     return hist
+
+
+def model_evaluater(test_generator,model):
+    results = model.evaluate(test_generator)
+    print(results)
+
+
+
 
 def main():
     pass
