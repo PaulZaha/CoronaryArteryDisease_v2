@@ -19,7 +19,7 @@ def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.Adam(),
                   loss=tf.keras.losses.BinaryCrossentropy(),
                   #"sparse_categorical_crossentropy",
-                  metrics=[tf.keras.metrics.BinaryIoU()])
+                  metrics=['accuracy'])
 
 
 def model_fitter(train_generator,model,epochs

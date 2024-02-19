@@ -15,8 +15,9 @@ def predictor(name,model,imgormask,size):
     
     prediction = np.squeeze(prediction, axis=0)
     prediction = np.nanargmax(prediction, axis=-1)
+    np.savetxt('prediction.txt',prediction)
     prediction = Image.fromarray(np.uint8(prediction*255)) 
-    
+    np.savetxt('prediction_scaled.txt',prediction)
     #prediction = prediction.resize(size)
     prediction.save(name[:-4] + "_pred.jpg")
 

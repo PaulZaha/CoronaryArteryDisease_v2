@@ -6,7 +6,7 @@ import cv2
 
 from utils.Model_utils import *
 from utils.Pipeline import *
-
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Dropout, concatenate, Conv2DTranspose
 
 def double_conv_block(x,n_filters):
     x = tf.keras.layers.Conv2D(n_filters, 3, padding = "same", activation = "relu", kernel_initializer = "he_normal")(x)
@@ -30,7 +30,7 @@ def upsample_block(x, conv_features, n_filters):
 
 
 def build_model(size):
-    shape = size + (3,)
+    shape = size + (1,)
     inputs = tf.keras.layers.Input(shape=shape)
 
 
@@ -51,7 +51,10 @@ def build_model(size):
     u9 = upsample_block(u8, f1, 64)
     
     # outputs
-    outputs = tf.keras.layers.Conv2D(3, 1, padding="same", activation = "softmax")(u9)
+    #outputs = tf.keras.layers.Conv2D(3, 1, padding="same", activation = "softmax")(u9)
+    outputs = tf.keras.layers.Conv2D(2, (1,1), padding="same", activation = "sigmoid")(u9)
+
+
     # unet model with Keras Functional API
     unet_model = tf.keras.Model(inputs=inputs, outputs=outputs, name="U-Net")
     unet_model.trainable = True
@@ -73,19 +76,19 @@ def load_image(image_path, mask_path):
 
 
 
-
 def main():
     #Todos:
-    #Bilder verbrauchen aktuell zu viel RAM
+
     #Dice loss implementieren
 
     size =(512,512)
-    epochs = 20
+    epochs = 1
     batch_size = 4
     steps_per_epoch = 250
 
-    unet = build_model(size)
-    model_compiler(unet)
+    #unet = build_model(size)
+    net = build_model(size)
+    model_compiler(net)
 
 
     os.chdir(os.path.join(os.getcwd(),'..'))
@@ -108,13 +111,12 @@ def main():
 
 
     
-    model_fitter(train_generator=train_generator,model=unet,
-                        epochs=epochs,
-                        #validation_generator=validation_generator
-                        )
+    model_fitter(train_generator=train_generator,model=net,epochs=epochs
+                 #,validation_generator=train_generator
+                 )
 
     #model_evaluater(test_generator=test_generator,model=unet)
-    tf.keras.saving.save_model(unet,os.path.join(os.getcwd(),'model.h5'),save_format='h5')
+    tf.keras.saving.save_model(net,os.path.join(os.getcwd(),'model.h5'),save_format='h5')
     #predictor('1.png',unet,'images',size)
     #pred = unet.predict(test_img)
 if __name__ == "__main__":

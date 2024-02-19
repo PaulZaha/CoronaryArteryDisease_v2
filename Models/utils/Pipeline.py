@@ -5,7 +5,7 @@ from PIL import Image
 import cv2
 
 def img_to_array(imgormask,name,size):
-    img=Image.open(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train',imgormask,'img',name)).convert('RGB')
+    img=Image.open(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train',imgormask,'img',name)).convert('L')
     img = img.resize(size)
     img_array = np.array(img)
 
@@ -22,6 +22,9 @@ def generators(targetsize,batchsize,
                ,val_image_dir,val_mask_dir
                ,test_image_dir,test_mask_dir
                ):
+    class_mode = None
+    colormode = 'grayscale'
+
     seed=42
     train_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
     val_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
@@ -29,14 +32,15 @@ def generators(targetsize,batchsize,
 
     train_image_generator = train_gen.flow_from_directory(directory=train_image_dir,
                                                           seed=seed,
-                                                          class_mode=None,
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=batchsize
                                                           )
     train_mask_generator = train_gen.flow_from_directory(directory=train_mask_dir,
                                                           seed=seed,
-                                                          class_mode=None,
-                                                          
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=batchsize
                                                           )
@@ -45,12 +49,14 @@ def generators(targetsize,batchsize,
 
     val_image_generator = val_gen.flow_from_directory(directory=val_image_dir,
                                                           seed=seed,
-                                                          class_mode=None,
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=batchsize)
     val_mask_generator = val_gen.flow_from_directory(directory=val_mask_dir,
                                                           seed=seed,
-                                                          class_mode=None,
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=batchsize)
     validation_generator = zip(val_image_generator,val_mask_generator)
@@ -58,12 +64,14 @@ def generators(targetsize,batchsize,
 
     test_image_generator = test_gen.flow_from_directory(directory=test_image_dir,
                                                           seed=seed,
-                                                          class_mode=None,
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=1)
     test_mask_generator = test_gen.flow_from_directory(directory=test_mask_dir,
                                                           seed=seed,
-                                                          class_mode=None,
+                                                          class_mode=class_mode,
+                                                          color_mode=colormode,
                                                           target_size=targetsize,
                                                           batch_size=1)
     test_generator = zip(test_image_generator,test_mask_generator)
