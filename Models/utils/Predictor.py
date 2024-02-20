@@ -13,8 +13,11 @@ def predictor(name,model,imgormask,size):
     #print(prediction.shape)
     prediction = model.predict(predict_array)
     
+    #np.savetxt('prediction.txt',prediction)
     prediction = np.squeeze(prediction, axis=0)
-    prediction = np.nanargmax(prediction, axis=-1)
+    print(prediction)
+    prediction = np.argmax(prediction, axis=-1)
+    print(prediction)
     np.savetxt('prediction.txt',prediction)
     prediction = Image.fromarray(np.uint8(prediction*255)) 
     np.savetxt('prediction_scaled.txt',prediction)
@@ -29,7 +32,7 @@ def predictor(name,model,imgormask,size):
 def main():
     size =(512,512)
     model = tf.keras.saving.load_model(os.path.join(os.getcwd(),'model.h5'))
-    predictor('7.png',model,'images',size)
+    predictor('7.png',model,'images_canny',size)
 
 if __name__ == "__main__":
     main()

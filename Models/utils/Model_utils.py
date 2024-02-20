@@ -17,20 +17,23 @@ def dice_loss(y_true, y_pred):
 
 def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.Adam(),
-                  loss=tf.keras.losses.BinaryCrossentropy(),
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                   #"sparse_categorical_crossentropy",
-                  metrics=['accuracy'])
+                  metrics=['accuracy'
+                      #,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1])
+                      ])
 
 
 def model_fitter(train_generator,model,epochs
-                 #,validation_generator
+                 ,validation_generator
                  ):
     hist = model.fit(train_generator
               ,epochs=epochs
-              ,steps_per_epoch=125
-              #,batch_size=batchsize
+              ,steps_per_epoch=250
               ,verbose=1
-              #,validation_data = validation_generator
+              ,validation_steps=50
+              ,validation_data = validation_generator
+              ,class_weight={0: 1, 1: 3}
               )
     return hist
 

@@ -3,6 +3,7 @@ import os
 import numpy as np
 from PIL import Image
 import cv2
+import matplotlib.pyplot as plt
 
 from utils.Model_utils import *
 from utils.Pipeline import *
@@ -52,7 +53,7 @@ def build_model(size):
     
     # outputs
     #outputs = tf.keras.layers.Conv2D(3, 1, padding="same", activation = "softmax")(u9)
-    outputs = tf.keras.layers.Conv2D(2, (1,1), padding="same", activation = "sigmoid")(u9)
+    outputs = tf.keras.layers.Conv2D(2, (1,1), activation = "sigmoid")(u9)
 
 
     # unet model with Keras Functional API
@@ -61,32 +62,35 @@ def build_model(size):
     return unet_model
 
 
-def load_image(image_path, mask_path):
-    image = tf.io.read_file(image_path)
-    image = tf.image.decode_image(image, channels=3)  # Lade das Bild mit 3 Farbkanälen (RGB)
-    image = tf.cast(image, tf.float32) / 255.0  # Normalisieren der Pixelwerte auf den Bereich [0, 1]
 
-    mask = tf.io.read_file(mask_path)
-    mask = tf.image.decode_image(mask, channels=1)  # Lade die Maske mit einem Farbkanal (Graustufen)
-    mask = tf.cast(mask, tf.float32) / 255.0  # Normalisieren der Pixelwerte auf den Bereich [0, 1]
-    
-    return image, mask
+def gen_insepctor(generator):
+    # for i in range(3):
+    #     next(generator)
 
+    image,mask = next(generator)
+    print(image.shape)
+    print(mask.shape)
+    image = np.squeeze(image,axis=0)
+    plt.subplot(1, 2, 1)
+    plt.imshow(image,cmap='gray')
+    plt.title('Image')
+    plt.axis('off')
 
+    plt.subplot(1, 2, 2)
+    plt.imshow(tf.squeeze(mask), cmap='gray')
+    plt.title('Mask')
+    plt.axis('off')
+
+    plt.show()
 
 
 
 def main():
-    #Todos:
-
-    #Dice loss implementieren
 
     size =(512,512)
     epochs = 1
     batch_size = 4
-    steps_per_epoch = 250
 
-    #unet = build_model(size)
     net = build_model(size)
     model_compiler(net)
 
@@ -104,20 +108,20 @@ def main():
                                                                      train_image_dir=train_image_dir,train_mask_dir=train_mask_dir,
                                                                      val_image_dir=val_image_dir,val_mask_dir=val_mask_dir,
                                                                      test_image_dir=test_image_dir,test_mask_dir=test_mask_dir
-                                                                     )
-
+                                                                    )
     
+    #gen_insepctor(validation_generator)
 
 
 
     
     model_fitter(train_generator=train_generator,model=net,epochs=epochs
-                 #,validation_generator=train_generator
+                 ,validation_generator=train_generator
+                 #,class_weights=
                  )
 
     #model_evaluater(test_generator=test_generator,model=unet)
     tf.keras.saving.save_model(net,os.path.join(os.getcwd(),'model.h5'),save_format='h5')
-    #predictor('1.png',unet,'images',size)
-    #pred = unet.predict(test_img)
+
 if __name__ == "__main__":
     main()
