@@ -42,13 +42,22 @@ def kirsch_detection(split):
 
 
 
-        grad = cv.addWeighted(abs_grad_1,0.5,abs_grad_2,0.5,0)
+        grad111 = cv.addWeighted(abs_grad_1,0.5,abs_grad_2,0.5,0)
+        grad112 = cv.addWeighted(abs_grad_3,0.5,abs_grad_4,0.5,0)
+        grad113 = cv.addWeighted(abs_grad_5,0.5,abs_grad_6,0.5,0)
+        grad114 = cv.addWeighted(abs_grad_7,0.5,abs_grad_8,0.5,0)
+
+        grad121 = cv.addWeighted(grad111,0.5,grad112,0.5,0)
+        grad122 = cv.addWeighted(grad113,0.5,grad114,0.5,0)
+
+        grad211 = cv.addWeighted(grad121,0.5,grad122,0.5,0)
+
         os.chdir(os.path.join(os.getcwd(),'images_kirsch','img'))
-        cv.imwrite(image,grad)
+        cv.imwrite(image,grad211)
 
 
 def main():
-    kirsch_detection('val')
+    kirsch_detection('test')
 
 
 if __name__ == "__main__":
