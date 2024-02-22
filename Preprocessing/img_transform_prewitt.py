@@ -3,6 +3,7 @@ import cv2 as cv
 import numpy as np
 
 
+
 def prewitt_detection(split):
     path = os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'images','img')
 
