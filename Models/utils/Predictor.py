@@ -32,7 +32,7 @@ def predictor(name,model,imgormask,size):
 def main():
     size =(512,512)
     model = tf.keras.saving.load_model(os.path.join(os.getcwd(),'model.h5'))
-    predictor('7.png',model,'images_canny',size)
+    predictor('21.png',model,'images',size)
 
 if __name__ == "__main__":
     main()

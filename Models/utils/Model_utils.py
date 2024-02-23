@@ -19,8 +19,8 @@ def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.Adam(),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                   #"sparse_categorical_crossentropy",
-                  metrics=['accuracy'
-                      #,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1])
+                  metrics=[
+                      tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False)
                       ])
 
 
@@ -33,7 +33,7 @@ def model_fitter(train_generator,model,epochs
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 3}
+              ,class_weight={0: 1, 1: 50}
               )
     return hist
 
