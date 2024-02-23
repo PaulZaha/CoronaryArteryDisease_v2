@@ -14,9 +14,18 @@ def dice_loss(y_true, y_pred):
     dice = (2. * intersection + smooth) / (union + smooth)
     return 1. - dice
 
+path = os.path.join(os.getcwd(),'..')
+checkpoint_path = os.path.join(path,'model.h5')
+model_callback = tf.keras.callbacks.ModelCheckpoint(
+    filepath = checkpoint_path,
+    monitor='val_io_u',
+    mode='max',
+    save_best_only=True,
+    verbose=1
+)
 
 def model_compiler(model):
-    model.compile(optimizer=tf.keras.optimizers.Adam(),
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                   #"sparse_categorical_crossentropy",
                   metrics=[
@@ -33,7 +42,8 @@ def model_fitter(train_generator,model,epochs
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 50}
+              ,class_weight={0: 1, 1: 100}
+              ,callbacks=[model_callback]
               )
     return hist
 
