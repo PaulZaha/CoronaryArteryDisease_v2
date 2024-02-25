@@ -25,7 +25,7 @@ model_callback = tf.keras.callbacks.ModelCheckpoint(
 )
 
 def model_compiler(model):
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    model.compile(optimizer=tf.keras.optimizers.AdamW(learning_rate=1e-3),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                   #"sparse_categorical_crossentropy",
                   metrics=[
@@ -42,7 +42,7 @@ def model_fitter(train_generator,model,epochs
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 100}
+              ,class_weight={0: 1, 1: 80}
               ,callbacks=[model_callback]
               )
     return hist

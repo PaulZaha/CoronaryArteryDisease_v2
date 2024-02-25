@@ -26,8 +26,16 @@ def generators(targetsize,batchsize,
     colormode = 'grayscale'
 
     seed=42
-    train_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
-    val_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+    train_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255
+                                                                ,horizontal_flip=True
+                                                                ,zoom_range=0.1
+                                                                ,rotation_range=10)
+    
+    val_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255
+                                                              ,horizontal_flip=True
+                                                              ,zoom_range=0.1
+                                                              ,rotation_range=10)
+    
     test_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
     train_image_generator = train_gen.flow_from_directory(directory=train_image_dir,
