@@ -4,8 +4,14 @@ import numpy as np
 from PIL import Image
 import cv2
 
-from utils.Pipeline import *
+from Pipeline import *
+from Predictor import *
 
+
+# from utils.Pipeline import *
+# from utils.Predictor import *
+
+#tf.config.run_functions_eagerly(True)
 
 def dice_loss(y_true, y_pred):
     smooth = 1e-5
@@ -18,18 +24,22 @@ path = os.path.join(os.getcwd(),'..')
 checkpoint_path = os.path.join(path,'model.h5')
 model_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath = checkpoint_path,
-    monitor='val_io_u',
-    mode='max',
+    monitor='val_loss',
+    mode='min',
     save_best_only=True,
     verbose=1
 )
 
 def model_compiler(model):
-    model.compile(optimizer=tf.keras.optimizers.AdamW(learning_rate=1e-3),
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+                  #loss=tf.keras.losses.BinaryCrossentropy(),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+                  run_eagerly=True,
                   #"sparse_categorical_crossentropy",
                   metrics=[
-                      tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False)
+                      tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False,name='IoU_White')
+                      ,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[0],sparse_y_true = True, sparse_y_pred = False,name='IoU_Black')
+                      #,f1_metric
                       ])
 
 
@@ -48,12 +58,18 @@ def model_fitter(train_generator,model,epochs
     return hist
 
 
+
 def model_evaluater(test_generator,model):
     results = model.evaluate(test_generator)
+
+
     print(results)
 
-
-
+def f1_metric(y_true,y_pred):
+    y_true = y_true.numpy()
+    y_pred = y_pred.numpy()
+    f1 = f1score(y_true,y_pred)
+    return f1
 
 def main():
     pass

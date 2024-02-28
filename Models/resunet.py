@@ -91,7 +91,7 @@ def model():
 def main():
 
     size =(512,512)
-    epochs = 1
+    epochs = 10
     batch_size = 4
 
     net = model()
@@ -113,13 +113,12 @@ def main():
                                                                      test_image_dir=test_image_dir,test_mask_dir=test_mask_dir
                                                                     )
     
-    #gen_insepctor(validation_generator)
 
 
 
     
     model_fitter(train_generator=train_generator,model=net,epochs=epochs
-                 ,validation_generator=train_generator
+                 ,validation_generator=validation_generator
                  )
 
     #model_evaluater(test_generator=test_generator,model=unet)
