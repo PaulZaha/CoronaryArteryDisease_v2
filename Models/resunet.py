@@ -11,8 +11,8 @@ from PIL import Image
 import cv2
 import matplotlib.pyplot as plt
 
-from utils.Model_utils import *
-from utils.Pipeline import *
+from Model_utils import *
+from Pipeline import *
 
 
 def residual_block(input1):
