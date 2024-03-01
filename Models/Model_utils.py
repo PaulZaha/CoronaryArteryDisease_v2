@@ -11,14 +11,6 @@ import cv2
 from Pipeline import *
 from Predictor import *
 
-#tf.config.run_functions_eagerly(True)
-
-def dice_loss(y_true, y_pred):
-    smooth = 1e-5
-    intersection = tf.reduce_sum(y_true * y_pred)
-    union = tf.reduce_sum(y_true) + tf.reduce_sum(y_pred)
-    dice = (2. * intersection + smooth) / (union + smooth)
-    return 1 - dice
 
 path = os.path.join(os.getcwd(),'..')
 checkpoint_path = os.path.join(path,'model.h5')
@@ -42,12 +34,11 @@ def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate_decay),
                   #loss=tf.keras.losses.BinaryCrossentropy(),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-                  run_eagerly=True,
+                  #run_eagerly=True,
                   #"sparse_categorical_crossentropy",
                   metrics=[
                       tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False,name='IoU_White')
                       ,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[0],sparse_y_true = True, sparse_y_pred = False,name='IoU_Black')
-                      #,f1_metric
                       ])
 
 
@@ -65,18 +56,6 @@ def model_fitter(train_generator,model,epochs
               )
     return hist
 
-
-
-def model_evaluater(test_generator,model):
-    results = model.evaluate(test_generator)
-    print(results)
-
-#Funktioniert nicht :/
-def f1_metric(y_true,y_pred):
-    y_true = y_true.numpy()
-    y_pred = y_pred.numpy()
-    f1 = f1score(y_true,y_pred)
-    return f1
 
 def main():
     pass
