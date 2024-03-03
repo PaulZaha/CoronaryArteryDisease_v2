@@ -33,7 +33,7 @@ model_callback = tf.keras.callbacks.ModelCheckpoint(
 learning_rate_decay = tf.keras.optimizers.schedules.ExponentialDecay(
     1e-2,
     decay_steps=250,
-    decay_rate=0.96,
+    decay_rate=0.95,
     staircase=True
 )
 
@@ -47,6 +47,7 @@ def model_compiler(model):
                   metrics=[
                       tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False,name='IoU_White')
                       ,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[0],sparse_y_true = True, sparse_y_pred = False,name='IoU_Black')
+                      ,tf.keras.metrics.SparseCategoricalAccuracy()
                       #,f1_metric
                       ])
 
@@ -60,7 +61,7 @@ def model_fitter(train_generator,model,epochs
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 100}
+              ,class_weight={0: 1, 1: 80}
               ,callbacks=[model_callback]
               )
     return hist

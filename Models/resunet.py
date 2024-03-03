@@ -91,7 +91,7 @@ def model():
 def main():
 
     size =(512,512)
-    epochs = 10
+    epochs = 40
     batch_size = 4
 
     net = model()

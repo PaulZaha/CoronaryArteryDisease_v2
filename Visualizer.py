@@ -14,7 +14,7 @@ def show_image(split,name):
     """
 
     #Navigating to train_images folder
-    os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'images'))
+    os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'images','img'))
 
     #Instantiate subplots
     fig,ax=plt.subplots()
@@ -36,7 +36,7 @@ def show_image(split,name):
 
 def boundingbox(name,fig,ax):
     #Navigate to train annotation json
-    os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'annotations'))
+    os.chdir(os.path.join(os.getcwd(),'arcade','stenosis',split,'annotations'))
 
     #Read json data
     with open(split + ".json","r") as f:
@@ -55,7 +55,7 @@ def boundingbox(name,fig,ax):
 
 def mask_overlay(split,name,fig,ax):
     #Navigate to train annotation json
-    os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'annotations'))
+    os.chdir(os.path.join(os.getcwd(),'arcade','stenosis',split,'annotations'))
     print(os.getcwd())
     #Read json data
     with open(split + ".json","r") as f:
@@ -89,7 +89,7 @@ def mask_overlay(split,name,fig,ax):
 
 
 def main():
-    show_image('train','1.png')
+    show_image('train','104.png')
 
 
 

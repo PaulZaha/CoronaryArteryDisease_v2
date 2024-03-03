@@ -3,6 +3,7 @@ import os
 import numpy as np
 from PIL import Image
 import cv2
+import math
 
 # from Pipeline import *
 # from Model_utils import *
@@ -29,19 +30,17 @@ def predictor(name,model,imgormask,size):
     #print(prediction.shape)
     prediction = model.predict(predict_array)
     
-    #np.savetxt('prediction.txt',prediction)
     prediction = np.squeeze(prediction, axis=0)
-    print(prediction)
     prediction = np.argmax(prediction, axis=-1)
-    print(prediction)
+
 
     prediction_img = Image.fromarray(np.uint8(prediction*255)) 
 
-    #prediction = prediction.resize(size)
     prediction_img.save(name[:-4] + "_pred.jpg")
 
     true_mask = img_to_array_pred('masks',name,size)
-    f1score(true_mask,prediction)
+    f1 = f1score(true_mask,prediction)
+    print(f1)
 
 def predictor_test(model,size):
     mean_f1 = []
@@ -69,8 +68,11 @@ def predictor_test(model,size):
         print(name)
         print("F1: " + str(f1))
         mean_f1.append(f1)
-    print(sum(mean_f1)/len(mean_f1))
-    return mean_f1
+    print(mean_f1)
+    arr_f1 = np.array(mean_f1)
+    meanf1 = np.nanmean(arr_f1)
+    print(meanf1)
+    return meanf1
 
 
 def f1score(y_true,y_pred):
