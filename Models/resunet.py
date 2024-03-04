@@ -90,14 +90,16 @@ def model():
 
 def main():
 
+    #Settings training parameters
     size =(512,512)
     epochs = 40
     batch_size = 4
 
+    #Build model
     net = model()
     model_compiler(net)
 
-
+    #Set directories for images
     os.chdir(os.path.join(os.getcwd(),'..'))
     train_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','images')
     train_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','masks')
@@ -106,7 +108,7 @@ def main():
     test_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images')
     test_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','masks')
 
-
+    #Create generators
     train_generator,validation_generator,test_generator = generators(targetsize=size,batchsize=batch_size,
                                                                      train_image_dir=train_image_dir,train_mask_dir=train_mask_dir,
                                                                      val_image_dir=val_image_dir,val_mask_dir=val_mask_dir,
@@ -116,12 +118,11 @@ def main():
 
 
 
-    
+    #Model training
     model_fitter(train_generator=train_generator,model=net,epochs=epochs
                  ,validation_generator=validation_generator
                  )
 
-    #model_evaluater(test_generator=test_generator,model=unet)
     tf.keras.saving.save_model(net,os.path.join(os.getcwd(),'model.h5'),save_format='h5')
 
 if __name__ == "__main__":
