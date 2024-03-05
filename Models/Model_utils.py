@@ -39,11 +39,8 @@ def model_compiler(model):
                   metrics=[
                       tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False,name='IoU_White')
                       ,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[0],sparse_y_true = True, sparse_y_pred = False,name='IoU_Black')
-<<<<<<< HEAD
                       ,tf.keras.metrics.SparseCategoricalAccuracy()
                       #,f1_metric
-=======
->>>>>>> origin/main
                       ])
 
 
