@@ -45,14 +45,8 @@ def predictor(name,model,imgormask,size):
     #Make prediction
     prediction = model.predict(predict_array)
     
-<<<<<<< HEAD
-    prediction = np.squeeze(prediction, axis=0)
-    prediction = np.argmax(prediction, axis=-1)
-
-=======
     #Remove first axis again, shape is now (size,size,2) due to softmax output (percentages that the pixel belongs to foreground/background)
     prediction = np.squeeze(prediction, axis=0)
->>>>>>> origin/main
 
     #Choose higher percentage, 0=background, 1=foreground. Shape is now (size,size,1)
     prediction = np.argmax(prediction, axis=-1)
@@ -60,19 +54,11 @@ def predictor(name,model,imgormask,size):
     #Convert and rescale numpy array to image
     prediction_img = Image.fromarray(np.uint8(prediction*255)) 
 
-<<<<<<< HEAD
-    prediction_img.save(name[:-4] + "_pred.jpg")
-
-    true_mask = img_to_array_pred('masks',name,size)
-    f1 = f1score(true_mask,prediction)
-    print(f1)
-=======
     #Save prediction mask
     prediction_img.save(name[:-4] + "_pred.jpg")
 
     #Convert true mask to numpy array (shape=(size,size,1))
     true_mask = img_to_array('masks',name,size)
->>>>>>> origin/main
 
     #Compute f1 score
     f1 = f1score(true_mask,prediction)
@@ -119,18 +105,11 @@ def model_evaluate(model,size):
         print(name)
         print("F1: " + str(f1))
         mean_f1.append(f1)
-<<<<<<< HEAD
     print(mean_f1)
     arr_f1 = np.array(mean_f1)
     meanf1 = np.nanmean(arr_f1)
     print(meanf1)
     return meanf1
-=======
-
-    #compute mean f1 score
-    print(sum(mean_f1)/len(mean_f1))
-    return (sum(mean_f1)/len(mean_f1))
->>>>>>> origin/main
 
 
 def f1score(y_true,y_pred):
