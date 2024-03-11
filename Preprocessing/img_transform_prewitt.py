@@ -11,7 +11,6 @@ def prewitt_detection(split):
     for image in os.listdir(path):
         os.chdir(path)
         img = cv.imread(image,cv.IMREAD_GRAYSCALE)
-        img = cv.GaussianBlur(img,(3,3),0)
         os.chdir(os.path.join(os.getcwd(),'..','..'))
         kernelx = np.array([[1,1,1],[0,0,0],[-1,-1,-1]])
         kernely = np.array([[1,0,-1],[1,0,-1],[1,0,-1]])

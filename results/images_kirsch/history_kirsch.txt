@@ -1,0 +1,162 @@
+Epoch 1: val_loss improved from inf to 0.49539, saving model to /mnt/c/Users/paulz/Documents/CoronaryArteryDisease_v2/Models/../model.h5
+/home/paul_zaha/.local/lib/python3.10/site-packages/keras/src/engine/training.py:3103: UserWarning: You are saving your model as an HDF5 file via `model.save()`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')`.
+  saving_api.save_model(
+250/250 [==============================] - 72s 178ms/step - loss: 0.7219 - IoU_White: 0.0372 - IoU_Black: 0.8519 - sparse_categorical_accuracy: 0.8522 - val_loss: 0.4954 - val_IoU_White: 0.0000e+00 - val_IoU_Black: 0.9869 - val_sparse_categorical_accuracy: 0.9850
+Epoch 2/40
+250/250 [==============================] - ETA: 0s - loss: 0.6066 - IoU_White: 0.0478 - IoU_Black: 0.8781 - sparse_categorical_accuracy: 0.8783
+Epoch 2: val_loss improved from 0.49539 to 0.11357, saving model to /mnt/c/Users/paulz/Documents/CoronaryArteryDisease_v2/Models/../model.h5
+250/250 [==============================] - 43s 173ms/step - loss: 0.6066 - IoU_White: 0.0478 - IoU_Black: 0.8781 - sparse_categorical_accuracy: 0.8783 - val_loss: 0.1136 - val_IoU_White: 0.0658 - val_IoU_Black: 0.9450 - val_sparse_categorical_accuracy: 0.9441
+Epoch 3/40
+250/250 [==============================] - ETA: 0s - loss: 0.5776 - IoU_White: 0.0540 - IoU_Black: 0.8932 - sparse_categorical_accuracy: 0.8933
+Epoch 3: val_loss did not improve from 0.11357
+250/250 [==============================] - 42s 169ms/step - loss: 0.5776 - IoU_White: 0.0540 - IoU_Black: 0.8932 - sparse_categorical_accuracy: 0.8933 - val_loss: 0.6217 - val_IoU_White: 0.0199 - val_IoU_Black: 0.6300 - val_sparse_categorical_accuracy: 0.6327
+Epoch 4/40
+250/250 [==============================] - ETA: 0s - loss: 0.5414 - IoU_White: 0.0599 - IoU_Black: 0.9021 - sparse_categorical_accuracy: 0.9022
+Epoch 4: val_loss did not improve from 0.11357
+250/250 [==============================] - 42s 169ms/step - loss: 0.5414 - IoU_White: 0.0599 - IoU_Black: 0.9021 - sparse_categorical_accuracy: 0.9022 - val_loss: 0.1767 - val_IoU_White: 0.0634 - val_IoU_Black: 0.9129 - val_sparse_categorical_accuracy: 0.9127
+Epoch 5/40
+250/250 [==============================] - ETA: 0s - loss: 0.5209 - IoU_White: 0.0620 - IoU_Black: 0.9059 - sparse_categorical_accuracy: 0.9060
+Epoch 5: val_loss did not improve from 0.11357
+250/250 [==============================] - 42s 169ms/step - loss: 0.5209 - IoU_White: 0.0620 - IoU_Black: 0.9059 - sparse_categorical_accuracy: 0.9060 - val_loss: 0.5685 - val_IoU_White: 0.0275 - val_IoU_Black: 0.7179 - val_sparse_categorical_accuracy: 0.7200
+Epoch 6/40
+250/250 [==============================] - ETA: 0s - loss: 0.5101 - IoU_White: 0.0641 - IoU_Black: 0.9056 - sparse_categorical_accuracy: 0.9057
+Epoch 6: val_loss did not improve from 0.11357
+250/250 [==============================] - 43s 171ms/step - loss: 0.5101 - IoU_White: 0.0641 - IoU_Black: 0.9056 - sparse_categorical_accuracy: 0.9057 - val_loss: 0.1477 - val_IoU_White: 0.0387 - val_IoU_Black: 0.9418 - val_sparse_categorical_accuracy: 0.9405
+Epoch 7/40
+250/250 [==============================] - ETA: 0s - loss: 0.4859 - IoU_White: 0.0690 - IoU_Black: 0.9124 - sparse_categorical_accuracy: 0.9125
+Epoch 7: val_loss did not improve from 0.11357
+250/250 [==============================] - 43s 171ms/step - loss: 0.4859 - IoU_White: 0.0690 - IoU_Black: 0.9124 - sparse_categorical_accuracy: 0.9125 - val_loss: 0.1181 - val_IoU_White: 0.0664 - val_IoU_Black: 0.9488 - val_sparse_categorical_accuracy: 0.9477
+Epoch 8/40
+250/250 [==============================] - ETA: 0s - loss: 0.4959 - IoU_White: 0.0718 - IoU_Black: 0.9142 - sparse_categorical_accuracy: 0.9143
+Epoch 8: val_loss did not improve from 0.11357
+250/250 [==============================] - 43s 172ms/step - loss: 0.4959 - IoU_White: 0.0718 - IoU_Black: 0.9142 - sparse_categorical_accuracy: 0.9143 - val_loss: 0.2086 - val_IoU_White: 0.0676 - val_IoU_Black: 0.9076 - val_sparse_categorical_accuracy: 0.9077
+Epoch 9/40
+250/250 [==============================] - ETA: 0s - loss: 0.4594 - IoU_White: 0.0767 - IoU_Black: 0.9206 - sparse_categorical_accuracy: 0.9207
+Epoch 9: val_loss improved from 0.11357 to 0.04286, saving model to /mnt/c/Users/paulz/Documents/CoronaryArteryDisease_v2/Models/../model.h5
+250/250 [==============================] - 48s 192ms/step - loss: 0.4594 - IoU_White: 0.0767 - IoU_Black: 0.9206 - sparse_categorical_accuracy: 0.9207 - val_loss: 0.0429 - val_IoU_White: 0.0147 - val_IoU_Black: 0.9918 - val_sparse_categorical_accuracy: 0.9899
+Epoch 10/40
+250/250 [==============================] - ETA: 0s - loss: 0.4509 - IoU_White: 0.0800 - IoU_Black: 0.9235 - sparse_categorical_accuracy: 0.9236
+Epoch 10: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4509 - IoU_White: 0.0800 - IoU_Black: 0.9235 - sparse_categorical_accuracy: 0.9236 - val_loss: 0.1287 - val_IoU_White: 0.0816 - val_IoU_Black: 0.9397 - val_sparse_categorical_accuracy: 0.9392
+Epoch 11/40
+250/250 [==============================] - ETA: 0s - loss: 0.4312 - IoU_White: 0.0834 - IoU_Black: 0.9273 - sparse_categorical_accuracy: 0.9273
+Epoch 11: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4312 - IoU_White: 0.0834 - IoU_Black: 0.9273 - sparse_categorical_accuracy: 0.9273 - val_loss: 0.1485 - val_IoU_White: 0.0915 - val_IoU_Black: 0.9293 - val_sparse_categorical_accuracy: 0.9293
+Epoch 12/40
+250/250 [==============================] - ETA: 0s - loss: 0.4390 - IoU_White: 0.0846 - IoU_Black: 0.9266 - sparse_categorical_accuracy: 0.9266
+Epoch 12: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4390 - IoU_White: 0.0846 - IoU_Black: 0.9266 - sparse_categorical_accuracy: 0.9266 - val_loss: 0.0980 - val_IoU_White: 0.1164 - val_IoU_Black: 0.9545 - val_sparse_categorical_accuracy: 0.9539
+Epoch 13/40
+250/250 [==============================] - ETA: 0s - loss: 0.4318 - IoU_White: 0.0852 - IoU_Black: 0.9270 - sparse_categorical_accuracy: 0.9270
+Epoch 13: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4318 - IoU_White: 0.0852 - IoU_Black: 0.9270 - sparse_categorical_accuracy: 0.9270 - val_loss: 0.1693 - val_IoU_White: 0.0806 - val_IoU_Black: 0.9188 - val_sparse_categorical_accuracy: 0.9190
+Epoch 14/40
+250/250 [==============================] - ETA: 0s - loss: 0.4211 - IoU_White: 0.0903 - IoU_Black: 0.9315 - sparse_categorical_accuracy: 0.9315
+Epoch 14: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4211 - IoU_White: 0.0903 - IoU_Black: 0.9315 - sparse_categorical_accuracy: 0.9315 - val_loss: 0.1690 - val_IoU_White: 0.0780 - val_IoU_Black: 0.9191 - val_sparse_categorical_accuracy: 0.9192
+Epoch 15/40
+250/250 [==============================] - ETA: 0s - loss: 0.4165 - IoU_White: 0.0925 - IoU_Black: 0.9333 - sparse_categorical_accuracy: 0.9333
+Epoch 15: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4165 - IoU_White: 0.0925 - IoU_Black: 0.9333 - sparse_categorical_accuracy: 0.9333 - val_loss: 0.0820 - val_IoU_White: 0.1373 - val_IoU_Black: 0.9616 - val_sparse_categorical_accuracy: 0.9611
+Epoch 16/40
+250/250 [==============================] - ETA: 0s - loss: 0.3977 - IoU_White: 0.0962 - IoU_Black: 0.9374 - sparse_categorical_accuracy: 0.9373
+Epoch 16: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.3977 - IoU_White: 0.0962 - IoU_Black: 0.9374 - sparse_categorical_accuracy: 0.9373 - val_loss: 0.4108 - val_IoU_White: 0.0342 - val_IoU_Black: 0.8259 - val_sparse_categorical_accuracy: 0.8262
+Epoch 17/40
+250/250 [==============================] - ETA: 0s - loss: 0.4082 - IoU_White: 0.0960 - IoU_Black: 0.9362 - sparse_categorical_accuracy: 0.9362
+Epoch 17: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.4082 - IoU_White: 0.0960 - IoU_Black: 0.9362 - sparse_categorical_accuracy: 0.9362 - val_loss: 0.0802 - val_IoU_White: 0.1368 - val_IoU_Black: 0.9645 - val_sparse_categorical_accuracy: 0.9637
+Epoch 18/40
+250/250 [==============================] - ETA: 0s - loss: 0.3958 - IoU_White: 0.1004 - IoU_Black: 0.9391 - sparse_categorical_accuracy: 0.9390
+Epoch 18: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.3958 - IoU_White: 0.1004 - IoU_Black: 0.9391 - sparse_categorical_accuracy: 0.9390 - val_loss: 0.0968 - val_IoU_White: 0.1225 - val_IoU_Black: 0.9554 - val_sparse_categorical_accuracy: 0.9549
+Epoch 19/40
+250/250 [==============================] - ETA: 0s - loss: 0.3899 - IoU_White: 0.1012 - IoU_Black: 0.9394 - sparse_categorical_accuracy: 0.9394
+Epoch 19: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.3899 - IoU_White: 0.1012 - IoU_Black: 0.9394 - sparse_categorical_accuracy: 0.9394 - val_loss: 0.1341 - val_IoU_White: 0.1046 - val_IoU_Black: 0.9374 - val_sparse_categorical_accuracy: 0.9373
+Epoch 20/40
+250/250 [==============================] - ETA: 0s - loss: 0.3870 - IoU_White: 0.1009 - IoU_Black: 0.9389 - sparse_categorical_accuracy: 0.9389
+Epoch 20: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 170ms/step - loss: 0.3870 - IoU_White: 0.1009 - IoU_Black: 0.9389 - sparse_categorical_accuracy: 0.9389 - val_loss: 0.0863 - val_IoU_White: 0.1236 - val_IoU_Black: 0.9572 - val_sparse_categorical_accuracy: 0.9567
+Epoch 21/40
+250/250 [==============================] - ETA: 0s - loss: 0.3769 - IoU_White: 0.1012 - IoU_Black: 0.9409 - sparse_categorical_accuracy: 0.9409
+Epoch 21: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 171ms/step - loss: 0.3769 - IoU_White: 0.1012 - IoU_Black: 0.9409 - sparse_categorical_accuracy: 0.9409 - val_loss: 0.1185 - val_IoU_White: 0.1221 - val_IoU_Black: 0.9508 - val_sparse_categorical_accuracy: 0.9504
+Epoch 22/40
+250/250 [==============================] - ETA: 0s - loss: 0.3864 - IoU_White: 0.1066 - IoU_Black: 0.9419 - sparse_categorical_accuracy: 0.9418
+Epoch 22: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 170ms/step - loss: 0.3864 - IoU_White: 0.1066 - IoU_Black: 0.9419 - sparse_categorical_accuracy: 0.9418 - val_loss: 0.0848 - val_IoU_White: 0.1422 - val_IoU_Black: 0.9612 - val_sparse_categorical_accuracy: 0.9606
+Epoch 23/40
+250/250 [==============================] - ETA: 0s - loss: 0.3761 - IoU_White: 0.1060 - IoU_Black: 0.9427 - sparse_categorical_accuracy: 0.9427
+Epoch 23: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3761 - IoU_White: 0.1060 - IoU_Black: 0.9427 - sparse_categorical_accuracy: 0.9427 - val_loss: 0.1006 - val_IoU_White: 0.1202 - val_IoU_Black: 0.9490 - val_sparse_categorical_accuracy: 0.9487
+Epoch 24/40
+250/250 [==============================] - ETA: 0s - loss: 0.3738 - IoU_White: 0.1076 - IoU_Black: 0.9435 - sparse_categorical_accuracy: 0.9434
+Epoch 24: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3738 - IoU_White: 0.1076 - IoU_Black: 0.9435 - sparse_categorical_accuracy: 0.9434 - val_loss: 0.1226 - val_IoU_White: 0.1015 - val_IoU_Black: 0.9402 - val_sparse_categorical_accuracy: 0.9401
+Epoch 25/40
+250/250 [==============================] - ETA: 0s - loss: 0.3683 - IoU_White: 0.1101 - IoU_Black: 0.9440 - sparse_categorical_accuracy: 0.9439
+Epoch 25: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3683 - IoU_White: 0.1101 - IoU_Black: 0.9440 - sparse_categorical_accuracy: 0.9439 - val_loss: 0.0821 - val_IoU_White: 0.1449 - val_IoU_Black: 0.9601 - val_sparse_categorical_accuracy: 0.9595
+Epoch 26/40
+250/250 [==============================] - ETA: 0s - loss: 0.3685 - IoU_White: 0.1110 - IoU_Black: 0.9451 - sparse_categorical_accuracy: 0.9450
+Epoch 26: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3685 - IoU_White: 0.1110 - IoU_Black: 0.9451 - sparse_categorical_accuracy: 0.9450 - val_loss: 0.0791 - val_IoU_White: 0.1483 - val_IoU_Black: 0.9633 - val_sparse_categorical_accuracy: 0.9628
+Epoch 27/40
+250/250 [==============================] - ETA: 0s - loss: 0.3607 - IoU_White: 0.1139 - IoU_Black: 0.9471 - sparse_categorical_accuracy: 0.9470
+Epoch 27: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 170ms/step - loss: 0.3607 - IoU_White: 0.1139 - IoU_Black: 0.9471 - sparse_categorical_accuracy: 0.9470 - val_loss: 0.1223 - val_IoU_White: 0.1051 - val_IoU_Black: 0.9426 - val_sparse_categorical_accuracy: 0.9425
+Epoch 28/40
+250/250 [==============================] - ETA: 0s - loss: 0.3631 - IoU_White: 0.1130 - IoU_Black: 0.9458 - sparse_categorical_accuracy: 0.9458
+Epoch 28: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 170ms/step - loss: 0.3631 - IoU_White: 0.1130 - IoU_Black: 0.9458 - sparse_categorical_accuracy: 0.9458 - val_loss: 0.1171 - val_IoU_White: 0.1064 - val_IoU_Black: 0.9464 - val_sparse_categorical_accuracy: 0.9460
+Epoch 29/40
+250/250 [==============================] - ETA: 0s - loss: 0.3553 - IoU_White: 0.1144 - IoU_Black: 0.9470 - sparse_categorical_accuracy: 0.9469
+Epoch 29: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3553 - IoU_White: 0.1144 - IoU_Black: 0.9470 - sparse_categorical_accuracy: 0.9469 - val_loss: 0.1204 - val_IoU_White: 0.1171 - val_IoU_Black: 0.9449 - val_sparse_categorical_accuracy: 0.9448
+Epoch 30/40
+250/250 [==============================] - ETA: 0s - loss: 0.3454 - IoU_White: 0.1204 - IoU_Black: 0.9496 - sparse_categorical_accuracy: 0.9495
+Epoch 30: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3454 - IoU_White: 0.1204 - IoU_Black: 0.9496 - sparse_categorical_accuracy: 0.9495 - val_loss: 0.1301 - val_IoU_White: 0.1130 - val_IoU_Black: 0.9396 - val_sparse_categorical_accuracy: 0.9397
+Epoch 31/40
+250/250 [==============================] - ETA: 0s - loss: 0.3566 - IoU_White: 0.1205 - IoU_Black: 0.9493 - sparse_categorical_accuracy: 0.9492
+Epoch 31: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3566 - IoU_White: 0.1205 - IoU_Black: 0.9493 - sparse_categorical_accuracy: 0.9492 - val_loss: 0.0775 - val_IoU_White: 0.1605 - val_IoU_Black: 0.9660 - val_sparse_categorical_accuracy: 0.9654
+Epoch 32/40
+250/250 [==============================] - ETA: 0s - loss: 0.3572 - IoU_White: 0.1193 - IoU_Black: 0.9489 - sparse_categorical_accuracy: 0.9488
+Epoch 32: val_loss did not improve from 0.04286
+250/250 [==============================] - 43s 170ms/step - loss: 0.3572 - IoU_White: 0.1193 - IoU_Black: 0.9489 - sparse_categorical_accuracy: 0.9488 - val_loss: 0.1142 - val_IoU_White: 0.1156 - val_IoU_Black: 0.9490 - val_sparse_categorical_accuracy: 0.9490
+Epoch 33/40
+250/250 [==============================] - ETA: 0s - loss: 0.3501 - IoU_White: 0.1187 - IoU_Black: 0.9485 - sparse_categorical_accuracy: 0.9484
+Epoch 33: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3501 - IoU_White: 0.1187 - IoU_Black: 0.9485 - sparse_categorical_accuracy: 0.9484 - val_loss: 0.0936 - val_IoU_White: 0.1341 - val_IoU_Black: 0.9539 - val_sparse_categorical_accuracy: 0.9536
+Epoch 34/40
+250/250 [==============================] - ETA: 0s - loss: 0.3425 - IoU_White: 0.1200 - IoU_Black: 0.9494 - sparse_categorical_accuracy: 0.9493
+Epoch 34: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3425 - IoU_White: 0.1200 - IoU_Black: 0.9494 - sparse_categorical_accuracy: 0.9493 - val_loss: 0.0852 - val_IoU_White: 0.1465 - val_IoU_Black: 0.9591 - val_sparse_categorical_accuracy: 0.9589
+Epoch 35/40
+250/250 [==============================] - ETA: 0s - loss: 0.3448 - IoU_White: 0.1225 - IoU_Black: 0.9499 - sparse_categorical_accuracy: 0.9498
+Epoch 35: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3448 - IoU_White: 0.1225 - IoU_Black: 0.9499 - sparse_categorical_accuracy: 0.9498 - val_loss: 0.1028 - val_IoU_White: 0.1389 - val_IoU_Black: 0.9540 - val_sparse_categorical_accuracy: 0.9538
+Epoch 36/40
+250/250 [==============================] - ETA: 0s - loss: 0.3307 - IoU_White: 0.1246 - IoU_Black: 0.9521 - sparse_categorical_accuracy: 0.9520
+Epoch 36: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3307 - IoU_White: 0.1246 - IoU_Black: 0.9521 - sparse_categorical_accuracy: 0.9520 - val_loss: 0.1042 - val_IoU_White: 0.1354 - val_IoU_Black: 0.9519 - val_sparse_categorical_accuracy: 0.9517
+Epoch 37/40
+250/250 [==============================] - ETA: 0s - loss: 0.3473 - IoU_White: 0.1242 - IoU_Black: 0.9505 - sparse_categorical_accuracy: 0.9504
+Epoch 37: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3473 - IoU_White: 0.1242 - IoU_Black: 0.9505 - sparse_categorical_accuracy: 0.9504 - val_loss: 0.1213 - val_IoU_White: 0.1178 - val_IoU_Black: 0.9418 - val_sparse_categorical_accuracy: 0.9418
+Epoch 38/40
+250/250 [==============================] - ETA: 0s - loss: 0.3302 - IoU_White: 0.1247 - IoU_Black: 0.9523 - sparse_categorical_accuracy: 0.9522
+Epoch 38: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3302 - IoU_White: 0.1247 - IoU_Black: 0.9523 - sparse_categorical_accuracy: 0.9522 - val_loss: 0.0728 - val_IoU_White: 0.1628 - val_IoU_Black: 0.9654 - val_sparse_categorical_accuracy: 0.9649
+Epoch 39/40
+250/250 [==============================] - ETA: 0s - loss: 0.3360 - IoU_White: 0.1260 - IoU_Black: 0.9518 - sparse_categorical_accuracy: 0.9517
+Epoch 39: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3360 - IoU_White: 0.1260 - IoU_Black: 0.9518 - sparse_categorical_accuracy: 0.9517 - val_loss: 0.1011 - val_IoU_White: 0.1398 - val_IoU_Black: 0.9546 - val_sparse_categorical_accuracy: 0.9545
+Epoch 40/40
+250/250 [==============================] - ETA: 0s - loss: 0.3323 - IoU_White: 0.1285 - IoU_Black: 0.9530 - sparse_categorical_accuracy: 0.9529
+Epoch 40: val_loss did not improve from 0.04286
+250/250 [==============================] - 42s 170ms/step - loss: 0.3323 - IoU_White: 0.1285 - IoU_Black: 0.9530 - sparse_categorical_accuracy: 0.9529 - val_loss: 0.0743 - val_IoU_White: 0.1586 - val_IoU_Black: 0.9654 - val_sparse_categorical_accuracy: 0.9649
+/mnt/c/Users/paulz/Documents/CoronaryArteryDisease_v2/Models/resunet.py:126: UserWarning: You are saving your model as an HDF5 file via `model.save()`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')`.
+  tf.keras.saving.save_model(net,os.path.join(os.getcwd(),'model.h5'),save_format='h5')

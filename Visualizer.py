@@ -2,7 +2,6 @@ import os
 import json
 import numpy as np
 import pandas as pd
-import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.patches as patches
@@ -32,6 +31,33 @@ def show_image(split,name):
 
         ax.add_patch(patch)
     plt.show()
+
+def red_cmap():
+    colors = [(1, 0, 0, i) for i in np.linspace(0, 1, 256)]  # Von transparent bis voll rot
+    return plt.matplotlib.colors.ListedColormap(colors)
+
+def show_pred_masks(prediction_type,name):
+    """
+    Shows images with bounding boxes. Args:[name: 'image_id.jpg']
+    """
+
+    #Navigating to train_images folder
+    os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images','img'))
+
+    #Instantiate subplots
+    fig,ax=plt.subplots()
+    ax.imshow(mpimg.imread(name),cmap='gray')
+    plt.axis('off')
+
+    
+
+    os.chdir(os.path.join(os.getcwd(),'..','..'))
+    os.chdir(os.path.join(os.getcwd(),prediction_type,'img'))
+    overlay_mask = mpimg.imread(name[:-4]+'_pred.jpg')
+    ax.imshow(overlay_mask,cmap=red_cmap(),alpha=0.2)
+
+    plt.show()
+    
 
 
 def boundingbox(name,fig,ax):
@@ -89,8 +115,11 @@ def mask_overlay(split,name,fig,ax):
 
 
 def main():
-    show_image('train','104.png')
-
+    #show_pred_masks('predictions_images','29.png')
+    #show_pred_masks('predictions_images_kirsch','29.png')
+    #show_pred_masks('predictions_images_prewitt','29.png')
+    show_pred_masks('predictions_images_sobel','29.png')
+    #show_image('test','29.png')
 
 
 

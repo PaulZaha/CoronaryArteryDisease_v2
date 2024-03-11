@@ -92,7 +92,7 @@ def main():
 
     #Settings training parameters
     size =(512,512)
-    epochs = 40
+    epochs = 10
     batch_size = 4
 
     #Build model
@@ -101,11 +101,11 @@ def main():
 
     #Set directories for images
     os.chdir(os.path.join(os.getcwd(),'..'))
-    train_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','images')
+    train_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','images_prewitt')
     train_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','train','masks')
-    val_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','images')
+    val_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','images_prewitt')
     val_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','masks')
-    test_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images')
+    test_image_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images_prewitt')
     test_mask_dir = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','masks')
 
     #Create generators
@@ -114,7 +114,7 @@ def main():
                                                                      val_image_dir=val_image_dir,val_mask_dir=val_mask_dir,
                                                                      test_image_dir=test_image_dir,test_mask_dir=test_mask_dir
                                                                     )
-    
+
 
 
 

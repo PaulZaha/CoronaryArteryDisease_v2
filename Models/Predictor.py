@@ -4,19 +4,17 @@ import numpy as np
 from PIL import Image
 import cv2
 import math
-
-# from Pipeline import *
-# from Model_utils import *
+import matplotlib.image 
 
 from Pipeline import *
 from Model_utils import *
 
-def img_to_array(imgormask,name,size):
+def img_to_array(images_type,name,size):
     """
     Convert images to numpy arrays with shape=(size,size,1)
     """
     #Open image in greyscale mode
-    img=Image.open(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test',imgormask,'img',name)).convert('L')
+    img=Image.open(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test',images_type,'img',name)).convert('L')
 
     #Resize imgs
     img = img.resize(size)
@@ -31,113 +29,47 @@ def img_to_array(imgormask,name,size):
 
 
 
-def predictor(name,model,imgormask,size):
-    """
-    Saves predicted mask as .jpg and returns f1 score
-    """
-
-    #Convert img to numpy array
-    predict_array = img_to_array(imgormask,name,size)
-
-    #transform shape of array to (None,size,size,1) to match model input shape (4th dimension due to batch size needed)
-    predict_array = np.expand_dims(predict_array,axis=0)
-
-    #Make prediction
-    prediction = model.predict(predict_array)
-    
-    #Remove first axis again, shape is now (size,size,2) due to softmax output (percentages that the pixel belongs to foreground/background)
-    prediction = np.squeeze(prediction, axis=0)
-
-    #Choose higher percentage, 0=background, 1=foreground. Shape is now (size,size,1)
-    prediction = np.argmax(prediction, axis=-1)
-
-    #Convert and rescale numpy array to image
-    prediction_img = Image.fromarray(np.uint8(prediction*255)) 
-
-    #Save prediction mask
-    prediction_img.save(name[:-4] + "_pred.jpg")
-
-    #Convert true mask to numpy array (shape=(size,size,1))
-    true_mask = img_to_array('masks',name,size)
-
-    #Compute f1 score
-    f1 = f1score(true_mask,prediction)
-
-    return f1
-
-def model_evaluate(model,size):
+def mask_predictions(model,size,image_type):
     """
     Creates predicted masks for test split and returns mean f1 score over all predictions
     """
-    mean_f1 = []
 
     #Iterate over all images in test split
-    for name in os.listdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images','img')):
+    for name in os.listdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test',image_type,'img')):
         
         #Convert img to numpy array
-        predict_array = img_to_array('images',name,size)
+        predict_array = img_to_array(image_type,name,size)
 
         #transform shape of array to (None,size,size,1) to match model input shape (4th dimension due to batch size needed)
         predict_array = np.expand_dims(predict_array,axis=0)
 
         #Make prediction
         prediction = model.predict(predict_array)
-        
+
         #Remove first axis again, shape is now (size,size,2) due to softmax output (percentages that the pixel belongs to foreground/background)
         prediction = np.squeeze(prediction, axis=0)
 
         #Choose higher percentage, 0=background, 1=foreground. Shape is now (size,size,1)
         prediction = np.argmax(prediction, axis=-1)
 
+
         #Convert and rescale numpy array to image
-        prediction_img = Image.fromarray(np.uint8(prediction*255)) 
+        prediction_img = Image.fromarray(np.uint8(prediction*255),mode='L')
+        
+
+        #print(prediction_img)
 
         #Save images
-        os.chdir(os.path.join(os.getcwd(),'test_imgs'))
+        os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','predictions_'+image_type,'img'))
         prediction_img.save(name[:-4] + "_pred.jpg")
-        os.chdir(os.path.join(os.getcwd(),'..'))
-
-        #convert true mask to numpy array
-        true_mask = img_to_array('masks',name,size)
-
-        #compute f1 score for every image
-        f1 = f1score(true_mask,prediction)
-        print(name)
-        print("F1: " + str(f1))
-        mean_f1.append(f1)
-    print(mean_f1)
-    arr_f1 = np.array(mean_f1)
-    meanf1 = np.nanmean(arr_f1)
-    print(meanf1)
-    return meanf1
-
-
-def f1score(y_true,y_pred):
-    """
-    computes f1 score between true and predicted masks
-    """
-    
-    #compute true positive rate
-    TP = np.sum(y_true*y_pred)
-
-    #compute precision
-    precision = TP/(np.sum(y_pred)+1e-10)
-
-    #compute recall
-    recall = TP/(np.sum(y_true)+1e-10)
-    
-    #compute f1 from precision and recall
-    f1 = (2*precision*recall)/(precision+recall)
-
-    return f1
+        os.chdir(os.path.join(os.getcwd(),'..','..','..','..','..','..'))
 
 
 
 def main():
     size =(512,512)
     model = tf.keras.saving.load_model(os.path.join(os.getcwd(),'model.h5'))
-    #predictor('7.png',model,'images',size)
-    model_evaluate(model,size)
+    mask_predictions(model,size,'images_prewitt')
 
 if __name__ == "__main__":
     main()

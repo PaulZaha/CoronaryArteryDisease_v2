@@ -3,6 +3,7 @@ import os
 import numpy as np
 from PIL import Image
 import cv2
+import matplotlib.pyplot as plt
 
 # from Pipeline import *
 # from Predictor import *
@@ -23,7 +24,7 @@ model_callback = tf.keras.callbacks.ModelCheckpoint(
 )
 
 learning_rate_decay = tf.keras.optimizers.schedules.ExponentialDecay(
-    1e-2,
+    1e-3,
     decay_steps=250,
     decay_rate=0.95,
     staircase=True
@@ -47,16 +48,16 @@ def model_compiler(model):
 def model_fitter(train_generator,model,epochs
                  ,validation_generator
                  ):
-    hist = model.fit(train_generator
+    history = model.fit(train_generator
               ,epochs=epochs
               ,steps_per_epoch=250
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 80}
+              ,class_weight={0: 1, 1: 34}
               ,callbacks=[model_callback]
               )
-    return hist
+    
 
 
 def main():
