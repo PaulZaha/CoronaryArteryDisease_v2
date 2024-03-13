@@ -3,6 +3,7 @@ import numpy as np
 import re
 
 from Predictor import *
+from evaluation import *
 
 
 from skimage import morphology, measure
@@ -52,7 +53,7 @@ def pred_clusters(images_type,size):
 
         # Filtern der Cluster nach Mindestgröße
         cluster_sizes = np.bincount(pred_clusters.flat)
-        clusters_to_remove = np.where(cluster_sizes < 0)[0]
+        clusters_to_remove = np.where(cluster_sizes < 400)[0]
 
         for cluster_label in clusters_to_remove:
             pred_mask[pred_clusters == cluster_label] = 0
@@ -90,7 +91,7 @@ def main():
     print(np.mean(pred_clusters_sobel))
     print(pred_clusters_sobel)
 
-
+    paired_t_test(pred_clusters_images,pred_clusters_kirsch,'Kirsch')
 
 
 if __name__ == "__main__":

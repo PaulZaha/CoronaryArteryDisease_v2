@@ -4,12 +4,21 @@ from PIL import Image
 import cv2
 import math
 import matplotlib.pyplot as plt
-
+import re
 from Predictor import *
+from scipy.stats import friedmanchisquare, norm,ttest_rel
+
+#Alphanumerical sorting 
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 def evaluation(images_type,size):
     f1_list = []
-    for name in os.listdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test','images','img')):
+
+    img_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', 'test', 'images', 'img')
+    img_files = sorted(os.listdir(img_dir), key=natural_sort_key)
+
+    for name in img_files:
         true_mask_path = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test',images_type,'img',name)
         true_mask = img_to_array('masks',name,size)
         pred_name = name[:-4] + '_pred.jpg'
@@ -53,18 +62,42 @@ def histogram(array):
 
     plt.show()
 
+def normalize(array):
+    normal_distribution = norm(loc=0,scale=1)
+    mean = np.mean(array)
+    std_dev = np.std(array)
+
+    standardized = (array-mean)/std_dev
+    transformed = normal_distribution.ppf(np.linspace(0.01,0.99,len(array)))
+    transformed = transformed *std_dev + mean
+    return transformed
+
+def paired_t_test(array1,array2,name):
+    statistic,p_value = ttest_rel(array1,array2)
+    print("T-Statistik "+name,statistic)
+    print("P-Wert "+name,p_value)
+
 
 def main():
     size = (512,512)
 
-    f1_array = evaluation('images_prewitt',size)
+    f1_images = evaluation('images',size)
+    f1_kirsch = evaluation('images_kirsch',size)
+    f1_prewitt = evaluation('images_prewitt',size)
+    f1_sobel = evaluation('images_sobel',size)
 
-    #Calculate mean f1
-    mean_f1 = np.mean(f1_array)
-    print('Mean F1: ' + str(mean_f1))
+
+    
+    
 
 
-    histogram(f1_array)
+    paired_t_test(f1_kirsch,f1_images,"Kirsch")
+    paired_t_test(f1_prewitt,f1_images,"Prewitt")
+    paired_t_test(f1_sobel,f1_images,"Sobel")
+
+
+
+
 
 
 if __name__ == "__main__":
