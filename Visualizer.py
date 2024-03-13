@@ -115,11 +115,11 @@ def mask_overlay(split,name,fig,ax):
 
 
 def main():
-    #show_pred_masks('predictions_images','29.png')
-    #show_pred_masks('predictions_images_kirsch','29.png')
-    #show_pred_masks('predictions_images_prewitt','29.png')
-    show_pred_masks('predictions_images_sobel','29.png')
-    #show_image('test','29.png')
+    #show_pred_masks('predictions_images','12.png')
+    #show_pred_masks('predictions_images_kirsch','12.png')
+    #show_pred_masks('predictions_images_prewitt','12.png')
+    #show_pred_masks('predictions_images_sobel','12.png')
+    show_image('test','12.png')
 
 
 

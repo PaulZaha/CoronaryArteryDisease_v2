@@ -1,0 +1,4 @@
+model.h5
+results/images_sobel/sobel.h5
+results/images_kirsch/kirsch.h5
+results/images_canny/images_canny.h5
