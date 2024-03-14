@@ -53,7 +53,7 @@ def pred_clusters(images_type,size):
 
         # Filtern der Cluster nach Mindestgröße
         cluster_sizes = np.bincount(pred_clusters.flat)
-        clusters_to_remove = np.where(cluster_sizes < 400)[0]
+        clusters_to_remove = np.where(cluster_sizes < 96)[0]
 
         for cluster_label in clusters_to_remove:
             pred_mask[pred_clusters == cluster_label] = 0
@@ -72,26 +72,31 @@ def pred_clusters(images_type,size):
 def main():
     size=(512,512)
     truth_clusters = true_clusters(size)
+    unique,counts=np.unique(truth_clusters,return_counts=True)
+    anzahl = dict(zip(unique,counts))
+    print(anzahl)
     print(np.mean(truth_clusters))
-    print(truth_clusters)
+    # print(truth_clusters)
 
     pred_clusters_images = pred_clusters('images',size)
     print(np.mean(pred_clusters_images))
-    print(pred_clusters_images)
+    #print(pred_clusters_images)
 
     pred_clusters_kirsch = pred_clusters('images_kirsch',size)
     print(np.mean(pred_clusters_kirsch))
-    print(pred_clusters_kirsch)
+    #print(pred_clusters_kirsch)
 
     pred_clusters_prewitt = pred_clusters('images_prewitt',size)
     print(np.mean(pred_clusters_prewitt))
-    print(pred_clusters_prewitt)
+    #print(pred_clusters_prewitt)
 
     pred_clusters_sobel = pred_clusters('images_sobel',size)
     print(np.mean(pred_clusters_sobel))
-    print(pred_clusters_sobel)
+    #print(pred_clusters_sobel)
 
     paired_t_test(pred_clusters_images,pred_clusters_kirsch,'Kirsch')
+    paired_t_test(pred_clusters_images,pred_clusters_prewitt,'Prewitt')
+    paired_t_test(pred_clusters_images,pred_clusters_sobel,'Sobel')
 
 
 if __name__ == "__main__":
