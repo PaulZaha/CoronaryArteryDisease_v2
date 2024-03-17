@@ -50,10 +50,9 @@ def pred_clusters(images_type,size):
 
         pred_clusters = measure.label(pred_mask,connectivity=1)
         num_pred_clusters = np.max(pred_clusters)
-
         # Filtern der Cluster nach Mindestgröße
         cluster_sizes = np.bincount(pred_clusters.flat)
-        clusters_to_remove = np.where(cluster_sizes < 96)[0]
+        clusters_to_remove = np.where(cluster_sizes < 1)[0]
 
         for cluster_label in clusters_to_remove:
             pred_mask[pred_clusters == cluster_label] = 0
@@ -69,36 +68,46 @@ def pred_clusters(images_type,size):
     return pred_clusters_list
 
 
+def count_overlapping_clusters(true_mask, pred_mask):
+    truesize_list = []
+    predsize_list = []
+    overlapping_cluster_sizes = []
+    true_clusters = measure.label(true_mask, connectivity=2)
+    pred_clusters = measure.label(pred_mask, connectivity=2)
+
+    true_cluster_sizes = np.bincount(true_clusters.flat)[1:]
+    truesize_full = sum(true_cluster_sizes)
+    truesize_list.append(truesize_full)
+    pred_cluster_sizes = np.bincount(pred_clusters.flat)[1:]
+    predsize_full = sum(pred_cluster_sizes)
+    predsize_list.append(predsize_full)
+    
+
+    true_cluster_pixels = (true_clusters > 0).astype(int)
+    pred_cluster_pixels = (pred_clusters > 0).astype(int)
+
+
+    true_cluster_ids = np.unique(true_clusters * true_cluster_pixels)
+    pred_cluster_ids = np.unique(pred_clusters * pred_cluster_pixels)
+
+    overlapping_cluster_ids = np.intersect1d(true_cluster_ids, pred_cluster_ids)
+
+    for cluster_id in overlapping_cluster_ids:
+        pred_cluster_size = np.sum(pred_clusters == cluster_id)
+        overlapping_cluster_sizes.append(pred_cluster_size)
+    overlapping_cluster_sizes_value = sum(overlapping_cluster_sizes[1:])
+
+    
+
+    overlapping_clusters_count = len(overlapping_cluster_ids)
+
+    return overlapping_clusters_count,truesize_list,predsize_list,overlapping_cluster_sizes_value
+
+    
+
 def main():
-    size=(512,512)
-    truth_clusters = true_clusters(size)
-    unique,counts=np.unique(truth_clusters,return_counts=True)
-    anzahl = dict(zip(unique,counts))
-    print(anzahl)
-    print(np.mean(truth_clusters))
-    # print(truth_clusters)
-
-    pred_clusters_images = pred_clusters('images',size)
-    print(np.mean(pred_clusters_images))
-    #print(pred_clusters_images)
-
-    pred_clusters_kirsch = pred_clusters('images_kirsch',size)
-    print(np.mean(pred_clusters_kirsch))
-    #print(pred_clusters_kirsch)
-
-    pred_clusters_prewitt = pred_clusters('images_prewitt',size)
-    print(np.mean(pred_clusters_prewitt))
-    #print(pred_clusters_prewitt)
-
-    pred_clusters_sobel = pred_clusters('images_sobel',size)
-    print(np.mean(pred_clusters_sobel))
-    #print(pred_clusters_sobel)
-
-    paired_t_test(pred_clusters_images,pred_clusters_kirsch,'Kirsch')
-    paired_t_test(pred_clusters_images,pred_clusters_prewitt,'Prewitt')
-    paired_t_test(pred_clusters_images,pred_clusters_sobel,'Sobel')
-
-
+    pass
+    
 if __name__ == "__main__":
     main()
 

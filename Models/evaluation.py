@@ -8,31 +8,48 @@ import re
 from Predictor import *
 from scipy.stats import friedmanchisquare, norm,ttest_rel
 
+from cluster_analysis import *
+
 #Alphanumerical sorting 
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 def evaluation(images_type,size):
     f1_list = []
+    nonoverlaps_list = []
+    truesize_list = []
+    predsize_list = []
+    overlapssize_list = []
 
     img_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', 'test', 'images', 'img')
     img_files = sorted(os.listdir(img_dir), key=natural_sort_key)
 
     for name in img_files:
-        true_mask_path = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','test',images_type,'img',name)
         true_mask = img_to_array('masks',name,size)
+        true_mask = np.where(true_mask>=0.5,1,true_mask)
+        true_mask = np.where(true_mask<0.5,0,true_mask)
+
         pred_name = name[:-4] + '_pred.jpg'
         pred_mask = img_to_array('predictions_'+images_type,pred_name,size)
+        pred_mask = np.where(pred_mask>=0.5,1,pred_mask)
+        pred_mask = np.where(pred_mask<0.5,0,pred_mask)
+
+        nonoverlaps,truesize,predsize,overlapssize = count_overlapping_clusters(true_mask,pred_mask)
+        nonoverlaps_list.append(nonoverlaps)
+        truesize_list.append(truesize)
+        predsize_list.append(predsize)
+        overlapssize_list.append(overlapssize)
 
         f1 = f1score(true_mask,pred_mask)
         f1_list.append(f1)
     f1_arr = np.array(f1_list)
-    print(f1_arr)
+    nonoverlap_arr = np.array(nonoverlaps_list)
+
     nan_mask = np.isnan(f1_arr)
     f1_arr[nan_mask] = 0
     
     
-    return f1_arr
+    return f1_arr,nonoverlaps_list,truesize_list,predsize_list,overlapssize_list
 
 def f1score(y_true,y_pred):
     """
@@ -81,22 +98,46 @@ def paired_t_test(array1,array2,name):
 def main():
     size = (512,512)
 
-    f1_images = evaluation('images',size)
-    f1_kirsch = evaluation('images_kirsch',size)
-    f1_prewitt = evaluation('images_prewitt',size)
-    f1_sobel = evaluation('images_sobel',size)
+    f1_images,overlaps_images,truesize,predsize_images,overlaps_size_images = evaluation('images',size)
+    f1_kirsch,overlaps_kirsch,a,predsize_kirsch,overlaps_size_kirsch = evaluation('images_kirsch',size)
+    f1_prewitt,overlaps_prewitt,b,predsize_prewitt,overlaps_size_prewitt = evaluation('images_prewitt',size)
+    f1_sobel,overlaps_sobel,c,predsize_sobel,overlaps_size_sobel = evaluation('images_sobel',size)
+
+    truth_clusters = true_clusters(size)
+    pred_clusters_images = pred_clusters('images',size)
+    pred_clusters_kirsch = pred_clusters('images_kirsch',size)
+    pred_clusters_prewitt = pred_clusters('images_prewitt',size)
+    pred_clusters_sobel = pred_clusters('images_sobel',size)
+
+    non_overlaps_images = pred_clusters_images-overlaps_images
+    non_overlaps_kirsch = pred_clusters_kirsch-overlaps_kirsch
+    non_overlaps_prewitt = pred_clusters_prewitt-overlaps_prewitt
+    non_overlaps_sobel = pred_clusters_sobel-overlaps_sobel
 
 
+    print("Mean Non-Overlaps:")
+    print(np.mean(non_overlaps_images))
+    print(np.mean(non_overlaps_kirsch))
+    print(np.mean(non_overlaps_prewitt))
+    print(np.mean(non_overlaps_sobel))
     
-    
+    print("Cluster sizes: ")
+    print(np.mean(truesize))
+    print(np.mean(predsize_images))
+    print(np.mean(predsize_kirsch))
+    print(np.mean(predsize_prewitt))
+    print(np.mean(predsize_sobel))
+
+    print("Non Overlaps size: ")
+    print(np.mean(overlaps_size_images))
+    print(np.mean(overlaps_size_kirsch))
+    print(np.mean(overlaps_size_prewitt))
+    print(np.mean(overlaps_size_sobel))
 
 
     paired_t_test(f1_kirsch,f1_images,"Kirsch")
     paired_t_test(f1_prewitt,f1_images,"Prewitt")
     paired_t_test(f1_sobel,f1_images,"Sobel")
-
-
-
 
 
 
