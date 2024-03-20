@@ -5,14 +5,10 @@ from PIL import Image
 import cv2
 import matplotlib.pyplot as plt
 
-# from Pipeline import *
-# from Predictor import *
-
-
 from Pipeline import *
 from Predictor import *
 
-
+#Callback to save best performing model based on lowest validation loss
 path = os.path.join(os.getcwd(),'..')
 checkpoint_path = os.path.join(path,'model.h5')
 model_callback = tf.keras.callbacks.ModelCheckpoint(
@@ -23,6 +19,7 @@ model_callback = tf.keras.callbacks.ModelCheckpoint(
     verbose=1
 )
 
+#Exponential learning rate decay callback
 learning_rate_decay = tf.keras.optimizers.schedules.ExponentialDecay(
     1e-3,
     decay_steps=250,
@@ -30,21 +27,17 @@ learning_rate_decay = tf.keras.optimizers.schedules.ExponentialDecay(
     staircase=True
 )
 
-
+#Compiling the model
 def model_compiler(model):
     model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=learning_rate_decay),
-                  #loss=tf.keras.losses.BinaryCrossentropy(),
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-                  #run_eagerly=True,
-                  #"sparse_categorical_crossentropy",
                   metrics=[
                       tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1],sparse_y_true = True, sparse_y_pred = False,name='IoU_White')
                       ,tf.keras.metrics.IoU(num_classes=2,target_class_ids=[0],sparse_y_true = True, sparse_y_pred = False,name='IoU_Black')
                       ,tf.keras.metrics.SparseCategoricalAccuracy()
-                      #,f1_metric
                       ])
 
-
+#Fitting the model
 def model_fitter(train_generator,model,epochs
                  ,validation_generator
                  ):
@@ -54,7 +47,7 @@ def model_fitter(train_generator,model,epochs
               ,verbose=1
               ,validation_steps=50
               ,validation_data = validation_generator
-              ,class_weight={0: 1, 1: 34}
+              ,class_weight={0: 1, 1: 80}
               ,callbacks=[model_callback]
               )
     

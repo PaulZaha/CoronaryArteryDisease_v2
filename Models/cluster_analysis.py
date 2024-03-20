@@ -16,54 +16,65 @@ def natural_sort_key(s):
 
 
 def true_clusters(size):
+    """
+    Computes number of clusters per image. Returns list with numbers
+    """
     true_clusters_list = []
 
+    #Alphanumerical sorting
     img_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', 'test', 'images', 'img')
     img_files = sorted(os.listdir(img_dir), key=natural_sort_key)
 
+    #Iterate over test images
     for name in img_files:
-
+        #convert mask to array
         true_mask = img_to_array('masks',name,size)
         true_mask = np.where(true_mask>=0.5,1,true_mask)
         true_mask = np.where(true_mask<0.5,0,true_mask)
         
-
+        #converts all clusters to non-0 values. Max value = number of clusters
         true_clusters = measure.label(true_mask,connectivity=2)
         num_true_clusters = np.max(true_clusters)
 
+
         true_clusters_list.append(num_true_clusters)
-    
     true_clusters_list = np.array(true_clusters_list)
     return true_clusters_list
 
 def pred_clusters(images_type,size):
+    """
+    Computes number of clusters per predicted mask.
+    """
     pred_clusters_list = []
 
+    #Alphanumerical sorting
     img_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', 'test', 'images', 'img')
     img_files = sorted(os.listdir(img_dir), key=natural_sort_key)
 
+    #Iterate over test images
     for name in img_files:
+
+        #Convert mask to array
         pred_name = name[:-4] + '_pred.jpg'
         pred_mask = img_to_array('predictions_'+images_type,pred_name,size)
         pred_mask = np.where(pred_mask>=0.5,1,pred_mask)
         pred_mask = np.where(pred_mask<0.5,0,pred_mask)
 
+        #converts all clusters to non-0 values. Max value = number of clusters
         pred_clusters = measure.label(pred_mask,connectivity=1)
         num_pred_clusters = np.max(pred_clusters)
+
         # Filtern der Cluster nach Mindestgröße
         cluster_sizes = np.bincount(pred_clusters.flat)
         clusters_to_remove = np.where(cluster_sizes < 1)[0]
-
         for cluster_label in clusters_to_remove:
             pred_mask[pred_clusters == cluster_label] = 0
 
-        # Erneutes Etikettieren der Cluster, nachdem kleine Cluster entfernt wurden
+        #Recount clusters
         pred_clusters = measure.label(pred_mask, connectivity=1)
         num_pred_clusters = np.max(pred_clusters)
 
-
         pred_clusters_list.append(num_pred_clusters)
-
     pred_clusters_list = np.array(pred_clusters_list)
     return pred_clusters_list
 

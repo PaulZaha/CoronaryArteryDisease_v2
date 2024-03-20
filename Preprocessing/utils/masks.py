@@ -1,11 +1,11 @@
 from PIL import Image, ImageDraw
-from pipelines import *
-
+import os
+import json
 
 
 
 def mask_png(split,name):
-    #Navigate to train annotation json
+    #Navigate to annotation json
     os.chdir(os.path.join(os.getcwd(),'Dataset','arcade','stenosis',split,'annotations'))
 
     #Read json data
@@ -49,9 +49,6 @@ def main():
         image_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', split, 'images')
         for image_name in os.listdir(image_dir):
             mask_png(split, image_name)
-
-
-    #mask_png('train','1.png')
 
 
 if __name__ == "__main__":

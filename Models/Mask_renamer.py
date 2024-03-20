@@ -1,6 +1,6 @@
-ordner_pfad = 'C:/Users/paulz/Documents/CoronaryArteryDisease_v2/Dataset/arcade/stenosis/val/masks/img'
-
 import os
+ordner_pfad = os.path.join(os.getcwd(),'Dataset','arcade','stenosis','val','masks','img')
+
 
 for dateiname in os.listdir(ordner_pfad):
     # Überprüfe, ob die Datei auf "_mask.png" endet

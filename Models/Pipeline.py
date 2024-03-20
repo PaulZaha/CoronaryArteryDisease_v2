@@ -10,6 +10,9 @@ def generators(targetsize,batchsize,
                ,val_image_dir,val_mask_dir
                ,test_image_dir,test_mask_dir
                ):
+    """
+    Takes targetsize, batchsize and directories for train, validation, test images and masks. Returns zipped generators.
+    """
     class_mode = None
     colormode = 'grayscale'
 

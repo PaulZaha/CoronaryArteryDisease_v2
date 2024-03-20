@@ -14,6 +14,7 @@ from cluster_analysis import *
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
+#Main evaluation function, returning f1, clusters, overlaps
 def evaluation(images_type,size):
     f1_list = []
     nonoverlaps_list = []
@@ -24,22 +25,27 @@ def evaluation(images_type,size):
     img_dir = os.path.join(os.getcwd(), 'Dataset', 'arcade', 'stenosis', 'test', 'images', 'img')
     img_files = sorted(os.listdir(img_dir), key=natural_sort_key)
 
+    #Iterate over all test images
     for name in img_files:
+        #convert true_mask to array
         true_mask = img_to_array('masks',name,size)
         true_mask = np.where(true_mask>=0.5,1,true_mask)
         true_mask = np.where(true_mask<0.5,0,true_mask)
 
+        #Convert prediction mask to array
         pred_name = name[:-4] + '_pred.jpg'
         pred_mask = img_to_array('predictions_'+images_type,pred_name,size)
         pred_mask = np.where(pred_mask>=0.5,1,pred_mask)
         pred_mask = np.where(pred_mask<0.5,0,pred_mask)
 
+        #get values for overlaps and sizes
         nonoverlaps,truesize,predsize,overlapssize = count_overlapping_clusters(true_mask,pred_mask)
         nonoverlaps_list.append(nonoverlaps)
         truesize_list.append(truesize)
         predsize_list.append(predsize)
         overlapssize_list.append(overlapssize)
 
+        #get f1 values
         f1 = f1score(true_mask,pred_mask)
         f1_list.append(f1)
     f1_arr = np.array(f1_list)
@@ -70,6 +76,7 @@ def f1score(y_true,y_pred):
 
     return f1
 
+#Not used anymore
 def histogram(array):
     plt.hist(array,bins=30,color='blue',edgecolor='black')
 
@@ -79,6 +86,7 @@ def histogram(array):
 
     plt.show()
 
+#Not used
 def normalize(array):
     normal_distribution = norm(loc=0,scale=1)
     mean = np.mean(array)
@@ -89,7 +97,11 @@ def normalize(array):
     transformed = transformed *std_dev + mean
     return transformed
 
+
 def paired_t_test(array1,array2,name):
+    """
+    Significance testing 
+    """
     statistic,p_value = ttest_rel(array1,array2)
     print("T-Statistik "+name,statistic)
     print("P-Wert "+name,p_value)
@@ -115,11 +127,21 @@ def main():
     non_overlaps_sobel = pred_clusters_sobel-overlaps_sobel
 
 
+    print("Mean Clusters: ")
+    print(np.mean(pred_clusters_images))
+    print(np.mean(pred_clusters_kirsch))
+    print(np.mean(pred_clusters_prewitt))
+    print(np.mean(pred_clusters_sobel))
+
+    cluster_list = [pred_clusters_images,pred_clusters_kirsch-pred_clusters_prewitt,pred_clusters_sobel]
+
     print("Mean Non-Overlaps:")
     print(np.mean(non_overlaps_images))
     print(np.mean(non_overlaps_kirsch))
     print(np.mean(non_overlaps_prewitt))
     print(np.mean(non_overlaps_sobel))
+
+    nonoverlaps_list = [non_overlaps_images,non_overlaps_kirsch,non_overlaps_prewitt,non_overlaps_sobel]
     
     print("Cluster sizes: ")
     print(np.mean(truesize))
@@ -138,7 +160,6 @@ def main():
     paired_t_test(f1_kirsch,f1_images,"Kirsch")
     paired_t_test(f1_prewitt,f1_images,"Prewitt")
     paired_t_test(f1_sobel,f1_images,"Sobel")
-
 
 
 if __name__ == "__main__":
