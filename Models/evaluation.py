@@ -142,7 +142,17 @@ def main():
     print(np.mean(non_overlaps_sobel))
 
     nonoverlaps_list = [non_overlaps_images,non_overlaps_kirsch,non_overlaps_prewitt,non_overlaps_sobel]
-    
+
+    print("Mean Overlaps: ")
+    print(np.mean(overlaps_images))
+    print(np.std(overlaps_images))
+    print(np.mean(overlaps_kirsch))
+    print(np.std(overlaps_kirsch))
+    print(np.mean(overlaps_prewitt))
+    print(np.std(overlaps_prewitt))
+    print(np.mean(overlaps_sobel))
+    print(np.std(overlaps_sobel))
+
     print("Cluster sizes: ")
     print(np.mean(truesize))
     print(np.mean(predsize_images))
